@@ -1,0 +1,27 @@
+---
+import BaseHead from "./BaseHead.astro";
+const { title, description, image = "/favicon.svg" } = Astro.props;
+
+import Header from "@components/Layout/Header.astro";
+import Footer from "@components/Layout/Footer.astro";
+---
+
+<!doctype html>
+<html lang="es">
+	<head>
+		<BaseHead title={title} description={description} image={image} />
+	</head>
+	<body>
+		<Header/>
+		<slot />
+		<Footer/>
+	</body>
+</html>
+
+<style>
+	*{
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+</style>
