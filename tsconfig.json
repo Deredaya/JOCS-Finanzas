@@ -17,6 +17,9 @@
       "@styles/*": [
         "src/styles/*"
       ],
+      "@scripts/*":[
+        "src/scripts/*"
+      ],
       "@pages/*": [
         "src/pages/*"
       ],

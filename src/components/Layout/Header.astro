@@ -1,0 +1,29 @@
+---
+import '@styles/header.scss'
+import {SignIn,SignOut} from 'auth-astro/components'
+import { getSession } from 'auth-astro/server';
+const session = await getSession(Astro.request)
+import Logo from '@components/assets/Logo.astro';
+import UserIcon from '@components/assets/user.astro'
+import LogIcon from '@components/assets/userLog.astro'
+---
+
+<header class="container">
+  <Logo class="Logo" id="home"/>
+  <section class="User">
+    {
+      !session ?
+      <>
+        {/* <img src={Imagen de Google} alt="" class="Signin"> */}
+        <LogIcon class="Signin" id="Signin"/>
+        <a class="popup" href="#Cerrar-Sesion">Cerrar Sesion</a>
+      </>
+      :
+      <>
+        <UserIcon class="Signin" id="Signin"/>
+        <a class="popup" href="#Iniciar-Sesion">Iniciar Sesion</a>
+      </>
+      }
+  </section>
+</header>
+<script src="@scripts/pages/header.js"></script>

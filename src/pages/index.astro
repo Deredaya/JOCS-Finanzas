@@ -1,6 +1,40 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import '@styles/index.scss'
+import Layout from '@layouts/Layout.astro';
+import { getSession } from 'auth-astro/server';
+const session = await getSession(Astro.request)
 ---
 
-<Layout title="Inicio de tu pagina">
+<Layout title="Administracion de Ingresos">
+  <main class="content">
+    {
+    !session ?
+    <>
+      {/* TO DO: Aqui cargaremos los datos si el usuario ya inicio sesion */}
+      <section class="Log">
+        <section class="global-data">
+          <p class="title">SALDO COMBINADO TOTAL</p>
+          <p class="cash" id="cash">$--,---.--</p>
+        </section>
+        <section class="actions">
+          <p>ACCIONES RAPIDAS</p>
+          <div class="btns">
+            
+          </div>
+        </section>
+      </section>
+    </>
+    :
+    <>
+      <section class="Unlog">
+        <p>¿Quieres saber por que nunca tienes dinero a final de quincena?</p>
+        <p>Inicia Sesion ahora mismo</p>
+        <a href="#Iniciar-Sesion">Iniciar Sesion</a>
+      </section>
+    </>
+  }
+  </main>
 </Layout>
+
+
+<script src="@scripts/pages/index.js"></script>
