@@ -1,0 +1,61 @@
+---
+import '@styles/dailyEntry.scss'
+import Layout from '@layouts/Layout.astro'
+
+import FoodIcon from '@components/assets/Food.astro'
+import TrasportIcon from '@components/assets/Transport.astro'
+import FunIcon from '@components/assets/Fun.astro'
+import OthersIcon from '@components/assets/Others.astro'
+---
+
+<Layout title="Ingresa los gastos">
+  <main class="dailyEntry">
+    <label class="text">GASTOS DIARIOS</label>
+
+    <section class="fortnightly">
+      <div class="background">
+        <label class="title">Ingreso Quincenal</label>
+        <input type="text" id="moneda" placeholder="$0.00">
+
+        <script src="@scripts/pages/income.js"></script>
+
+        <section class="category">
+          <label class="title">Seleccionar Categoria</label>
+          <div class="selections">
+            <input type="radio" name="cat" id="Category1" value="1" checked>
+            <label for="Category1">
+              <FoodIcon class="icon" />
+              Comida
+            </label>
+            <input type="radio" name="cat" id="Category2" value="2">
+            <label for="Category2">
+              <TrasportIcon class="icon"/>  
+              Transporte
+            </label>
+            <input type="radio" name="cat" id="Category3" value="3">
+            <label for="Category3">
+              <FunIcon class="icon" />
+              Diversión
+            </label>
+            <input type="radio" name="cat" id="Category4" value="4">
+            <label for="Category4">
+              <OthersIcon class="icon" />
+              Otros
+            </label>
+          </div>
+          <button>Agregar Gasto</button>
+        </section>
+      </div>
+
+      <section class="register">
+        <div class="heading">
+          <label>Movimientos Diarios</label>
+          <a href="#">Ver todo</a>
+        </div>
+
+        <section class="tableData" id="tableData">
+        </section>
+      </section>
+    </section>
+  </main>
+</Layout>

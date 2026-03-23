@@ -1,8 +1,9 @@
 ---
 import '@styles/header.scss'
 import {SignIn,SignOut} from 'auth-astro/components'
-import { getSession } from 'auth-astro/server';
-const session = await getSession(Astro.request)
+// import { getSession } from 'auth-astro/server';
+// const session = await getSession(Astro.request)
+const session = true
 import Logo from '@components/assets/Logo.astro';
 import UserIcon from '@components/assets/user.astro'
 import LogIcon from '@components/assets/userLog.astro'
@@ -12,7 +13,7 @@ import LogIcon from '@components/assets/userLog.astro'
   <Logo class="Logo" id="home"/>
   <section class="User">
     {
-      !session ?
+      session ?
       <>
         {/* <img src={Imagen de Google} alt="" class="Signin"> */}
         <LogIcon class="Signin" id="Signin"/>

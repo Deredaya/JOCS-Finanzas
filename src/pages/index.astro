@@ -1,14 +1,20 @@
 ---
 import '@styles/index.scss'
 import Layout from '@layouts/Layout.astro';
-import { getSession } from 'auth-astro/server';
-const session = await getSession(Astro.request)
+import IncomeIcon from '@components/assets/Income.astro';
+import ExpenseIcon from '@components/assets/Expense.astro';
+import DailyIcon from '@components/assets/DailyExpense.astro'
+
+// import { getSession } from 'auth-astro/server';
+// const session = await getSession(Astro.request)
+
+const session = true
 ---
 
 <Layout title="Administracion de Ingresos">
   <main class="content">
     {
-    !session ?
+    session ?
     <>
       {/* TO DO: Aqui cargaremos los datos si el usuario ya inicio sesion */}
       <section class="Log">
@@ -16,11 +22,37 @@ const session = await getSession(Astro.request)
           <p class="title">SALDO COMBINADO TOTAL</p>
           <p class="cash" id="cash">$--,---.--</p>
         </section>
+
         <section class="actions">
-          <p>ACCIONES RAPIDAS</p>
+          <p class="title">ACCIONES RAPIDAS</p>
           <div class="btns">
-            
+            <a href="/income" class="card">
+              <article class="bg-icon">
+                <IncomeIcon class="Icon"/>
+              </article>
+              <p>Agregar Ingresos</p>
+            </a>
+            <a href="#" class="card">
+              <article class="bg-icon">
+                <ExpenseIcon class="Icon"/>
+              </article>
+              <p>Gastos</p>
+            </a>
+            <a href="/dailyEntry" class="card">
+              <article class="bg-icon">
+                <DailyIcon class="Icon"/>
+              </article>
+              <p>Gastos diarios</p>
+            </a>
           </div>
+        </section>
+
+        <section class="table-container">
+          <article class="DateData"></article>
+          <article class="NameExpense"></article>
+          <article class="Debt"></article>
+          <article class="Pass"></article>
+          <article class="PassNumb"></article>
         </section>
       </section>
     </>

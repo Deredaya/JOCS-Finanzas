@@ -1,0 +1,42 @@
+---
+import '@styles/income.scss'
+import Layout from '@layouts/Layout.astro';
+---
+
+<Layout>
+  <main class="contentIncome">
+    <section class="income">
+      <p class="text">AGREGAR INGRESOS</p>
+
+      <section class="fortnightly">
+        <label>Ingreso Quincenal</label>
+        <input type="text" id="moneda" placeholder="$0.00">
+        <div></div>
+
+        <script src="@scripts/pages/income.js"></script>
+      </section>
+
+      <section class="Pay">
+        <label>Fecha de Pago</label>
+        <div class="DatePay">
+          <input class="InputDate" type="date" name="" id="">
+        </div>
+      </section>
+
+      <section class="Period">
+        <label>Periodo</label>
+        <section class="Period-select">
+          <input type="radio" id="Period1" name="period" value="1" checked>
+          <label for="Period1">Primero</label>
+          <input type="radio" id="Period2" name="period" value="2">
+          <label for="Period2">Segundo</label>
+          <div class="bg"></div>
+        </section>
+      </section>
+
+      <section class="SaveIncome">
+        <button>Guardar Ingresos</button>
+      </section>
+    </section>
+  </main>
+</Layout>

@@ -1,8 +1,7 @@
 body {
   width: 100%;
   height: 100vh;
-  background: #006041;
-  background: linear-gradient(90deg, rgba(0, 96, 66, 0.582) 0%, rgba(255, 255, 255, 0.778) 100%);
+  background: #F6FAFE;
 }
 
 .content {
@@ -13,6 +12,9 @@ body {
 }
 
 .Log {
+  display: grid;
+  gap:30px;
+
   .global-data {
     width: 350px;
     height: 180px;
@@ -24,6 +26,7 @@ body {
     padding: 30px 20px;
     border-radius: 25px;
     color: #fff;
+
     .title {
       font-family: 'Inter', sans-serif;
       font-weight: 400;
@@ -37,6 +40,60 @@ body {
       font-size: 48px;
       line-height: 48px;
       letter-spacing: -1.2px;
+    }
+  }
+
+  .actions {
+    .title {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 20px;
+      letter-spacing: 1.4px;
+      color: #3F4944;
+    }
+    
+    .btns {
+      display: flex;
+      gap: 16px;
+
+      .card{
+        width: 105px;
+        height: 105px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: #F0F4F8;
+        text-align: center;
+        border-radius: 16px;
+        padding: 21px 0;
+        text-decoration: none;
+        
+        .bg-icon{
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background: #fff;
+          border-radius: 50px;
+          width: 40px;
+          height: 40px;
+          margin: 0 0 8px 0;
+          
+          .Icon {
+            width: 20px;
+            height: 20px;
+          }
+        }
+
+        p {
+          font-family: 'Inter', sans-serif;
+          font-weight: 600;
+          font-size: 10px;
+          line-height: 15px;
+          letter-spacing: -0.5px;
+          color: #171C1F;
+        }
+      }
     }
   }
 }

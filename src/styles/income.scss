@@ -1,0 +1,206 @@
+* {
+  font-family: 'Inter',sans-serif;
+}
+
+body {
+  background: #F6FAFE;
+}
+
+.text {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 28px;
+  letter-spacing: -0.45px;
+  color: #064E3B;
+  text-align: center;
+}
+
+.contentIncome {
+  padding: 0 4rem;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  min-height: 85vh;
+  box-sizing: border-box;  
+
+  .income {
+    display: flex;
+    flex-direction: column;
+    gap:20px;
+    width: 100%;
+    max-width: 700px;
+  }
+
+  .fortnightly {
+    gap: 16px;
+    max-width: 700px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    label {
+      font-weight: 400;
+      text-align: center;
+      font-size: 10px;
+      line-height: 15px;
+      letter-spacing: 1px;
+      color: #3F4944; 
+    }
+
+    #moneda {
+      border: none;
+      outline: none;
+      background: transparent;
+      font-family: 'Manrope', sans-serif;
+      font-size: 60px;
+      text-align: center;
+      width: 100%; 
+      max-width: 416px;
+      color: #DFE3E7;
+      transition: color 0.3s ease;
+
+      &::placeholder {
+        color: #DFE3E7;
+      }
+    }
+
+    #moneda:focus {
+      border: none;
+      color: #059669;
+      outline: none;
+    }
+  }
+
+  .Pay {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+
+    label {
+      width: 340px;
+      font-weight: 600;
+      font-size: 11px;
+      line-height: 16.5px;
+      letter-spacing: 0.55px;
+      color: #3F4944;
+    }
+
+    .DatePay {
+      width: 340px;
+      border: 1px solid #3F4944;
+      height: 50px;
+      display: grid;
+      border-radius: 10px;
+
+      .InputDate {
+        border-radius: 10px;
+        border: none;
+        background: #DFE3E7;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 24px;
+        padding: 10px;
+      }
+    }
+  }
+
+  .Period {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+
+    label {
+      width: 340px;
+      font-weight: 600;
+      font-size: 11px;
+      line-height: 16.5px;
+      letter-spacing: 0.55px;
+      color: #3F4944;
+    }
+    
+    .Period-select {
+      display: flex;
+      position: relative;
+      background: #E4E9ED;
+      border: 1px solid #DFE3E7;
+      padding: 4px;
+      border-radius: 10px;
+      width: 340px;
+
+      input[type="radio"] {
+        display: none;
+      }
+
+      label {
+        flex: 1;
+        padding: 12px 0;
+        font-family: 'Manrope', sans-serif;
+        font-weight: 600;
+        font-size: 14px;
+        text-align: center;
+        cursor: pointer;
+        z-index: 2;
+        transition: color 0.3s ease;
+        color: #494c51;
+      }
+
+      input[id="Period1"]:checked ~ label[for="Period1"],
+      input[id="Period2"]:checked ~ label[for="Period2"] {
+        color: #fff;
+      }
+
+      .bg {
+        position: absolute;
+        height: calc(100% - 8px);
+        width: calc(50% - 4px);
+        background: linear-gradient(135deg, rgba(0, 70, 46, 1) 0%, rgba(0, 96, 65, 1) 100%);;
+        border-radius: 8px;
+        z-index: 1;
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      input[id="Period1"]:checked ~  .bg {
+        transform: translateX(0);
+      }
+      input[id="Period2"]:checked ~ .bg {
+        transform: translateX(100%);
+      }
+    }
+  }
+
+  .SaveIncome {
+    margin-top: auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    button {
+      width: 340px;
+      height: 50px;
+      background: linear-gradient(135deg, rgba(0, 70, 46, 1) 0%, rgba(0, 96, 65, 1) 100%);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Manrope', sans-serif;   
+      font-weight: 800;
+      font-size: 16px;
+      line-height: 24px;
+      letter-spacing: 0.4px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+  }
+}
+
+@media (width <= 700px) {
+    .contentIncome {
+    padding: 2rem;
+  }
+}
