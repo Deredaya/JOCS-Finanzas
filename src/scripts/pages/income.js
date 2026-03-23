@@ -1,16 +1,27 @@
-const inputMoneda = document.getElementById('moneda');
+const inc = document.querySelectorAll('input[name="income"]');
+const periods = document.querySelectorAll('input[name="period"]');
+const box = document.querySelector('.Period-select')
+const button = document.getElementById('saveIncome')
+const cashInput = document.getElementById('moneda');
 
-inputMoneda.addEventListener('input', (e) => {
-  let valor = e.target.value.replace(/\D/g, "");
 
-  valor = (valor / 100).toFixed(2);
+const modifyBox = (opacity,pointerEvent) => {
+    box.style.opacity = opacity;
+    box.style.pointerEvents = pointerEvent
+}
 
-  if (isNaN(valor)) {
-    e.target.value = "";
-  } else {
-    e.target.value = new Intl.NumberFormat('es-MX', {
-      style: 'currency',
-      currency: 'MXN'
-    }).format(valor);
-  }
-});
+inc.forEach(income => {
+    income.addEventListener('change', ev => {
+        const target = ev.target
+        if(target.checked && target.value === "2"){
+            periods.forEach(period => {
+                period.disable = true;
+            })
+            modifyBox("0.4","none")
+            return
+        }
+        modifyBox("1","auto")
+    })
+})
+
+

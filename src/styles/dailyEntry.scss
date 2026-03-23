@@ -67,6 +67,13 @@ body {
         &::placeholder {
           color: #DFE3E7;
         }
+
+      }
+      
+      #moneda:focus {
+        border: none;
+        color: #059669;
+        outline: none;
       }
 
       .category {
