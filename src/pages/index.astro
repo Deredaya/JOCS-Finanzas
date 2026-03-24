@@ -5,10 +5,44 @@ import IncomeIcon from '@icons/index/Income.astro';
 import ExpenseIcon from '@icons/index/Expense.astro';
 import DailyIcon from '@icons/index/DailyExpense.astro'
 
-// import { getSession } from 'auth-astro/server';
-// const session = await getSession(Astro.request)
+import { supabase } from "@/lib/supabase"
+import {SignIn,SignOut} from 'auth-astro/components'
+import { getSession } from 'auth-astro/server';
+const session = await getSession(Astro.request)
+const userId = session?.user?.id;
 
-const session = true
+// const ession = true
+
+// console.log("Estado de la sesión:", session ? "Sesión activa" : "No hay sesión");
+
+if (session?.user) {
+  const userId = session.user.id;
+
+  await supabase
+    .from('User-Finances')
+    .upsert({ 
+      id: userId,
+      email: session.user.email,
+      nombre: session.user.name,
+      avatar: session.user.image,
+      actualizado_at: new Date().toISOString()
+    }, { onConflict: 'id' });
+
+  const { data: existingFinance } = await supabase
+    .from('FinanceData')
+    .select('id')
+    .eq('id', userId)
+    .single();
+
+  if (!existingFinance) {
+    const { error: insertError } = await supabase
+      .from('FinanceData')
+      .insert({ 
+        id: userId,
+        global_amount: 0
+      });
+  } 
+}
 ---
 
 <Layout title="Administracion de Ingresos">
@@ -64,12 +98,16 @@ const session = true
       <section class="Unlog">
         <p>¿Quieres saber por que nunca tienes dinero a final de quincena?</p>
         <p>Inicia Sesion ahora mismo</p>
-        <a href="#Iniciar-Sesion">Iniciar Sesion</a>
+        <SignIn class="btn">Iniciar Sesion</SignIn>
+        {/* <a class="btn" href="#Iniciar-Sesion">Iniciar Sesion</a> */}
       </section>
     </>
   }
   </main>
 </Layout>
 
+<script define:vars={{ userId }}>
+  window.currentUserId = userId;
+</script>
 
 <script src="@scripts/pages/index.js"></script>

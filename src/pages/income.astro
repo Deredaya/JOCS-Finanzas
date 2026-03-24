@@ -4,6 +4,10 @@ import Layout from '@layouts/Layout.astro';
 
 import OthersIcon from '@icons/Others.astro';
 import JobIcon from '@icons/income/Job.astro';
+
+import { getSession } from 'auth-astro/server';
+const session = await getSession(Astro.request);
+const userId = session?.user?.id;
 ---
 
 <Layout>
@@ -14,7 +18,6 @@ import JobIcon from '@icons/income/Job.astro';
       <section class="fortnightly">
         <label>INGRESO QUINCENAL</label>
         <input type="text" id="moneda" inputmode="decimal" placeholder="$0.00">
-        <div></div>
 
         <script src="@scripts/components/cashInput.js"></script>
       </section>
@@ -22,7 +25,7 @@ import JobIcon from '@icons/income/Job.astro';
       <section class="Pay">
         <label>FECHA DE INGRESO</label>
         <div class="DatePay">
-          <input class="InputDate" type="date" name="" id="">
+          <input class="InputDate" type="date" name="" id="datePay">
         </div>
       </section>
       
@@ -61,3 +64,7 @@ import JobIcon from '@icons/income/Job.astro';
     </section>
   </main>
 </Layout>
+
+<script define:vars={{ userId }}>
+  window.currentUserId = userId;
+</script>
