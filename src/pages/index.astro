@@ -1,9 +1,9 @@
 ---
 import '@styles/index.scss'
 import Layout from '@layouts/Layout.astro';
-import IncomeIcon from '@components/assets/Income.astro';
-import ExpenseIcon from '@components/assets/Expense.astro';
-import DailyIcon from '@components/assets/DailyExpense.astro'
+import IncomeIcon from '@icons/index/Income.astro';
+import ExpenseIcon from '@icons/index/Expense.astro';
+import DailyIcon from '@icons/index/DailyExpense.astro'
 
 // import { getSession } from 'auth-astro/server';
 // const session = await getSession(Astro.request)
@@ -32,7 +32,7 @@ const session = true
               </article>
               <p>Agregar Ingresos</p>
             </a>
-            <a href="#" class="card">
+            <a href="/monthEntry" class="card">
               <article class="bg-icon">
                 <ExpenseIcon class="Icon"/>
               </article>

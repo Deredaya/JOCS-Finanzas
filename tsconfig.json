@@ -23,6 +23,9 @@
       "@pages/*": [
         "src/pages/*"
       ],
+      "@icons/*": [
+        "src/components/assets/icons/*"
+      ],
       "@/*": [
         "src/*"
       ]

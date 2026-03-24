@@ -1,0 +1,50 @@
+---
+import Layout from '@layouts/Layout.astro';
+import '@styles/monthEntry.scss';
+import OtherIcon from '@icons/Others.astro';
+import OtherPay from '@icons/monthEntry/OtherPay.astro'
+---
+
+
+<Layout title="Ingresa Gasto Principal">
+  <main class="MonthContainer">
+    <label class="title">
+      Registrar Gasto
+    </label>
+
+    <section class="totalEntry">
+      <p class="titleEntry">CREDITO TOTAL</p>
+      <input type="text" name="MonthTotal" id="moneda"
+      placeholder="$0.00">
+    </section>
+
+    <section class="totalEntry">
+      <p class="titleEntry">ABONO MENSUAL</p>
+      <input type="text" name="MonthCash" id="moneda"
+      placeholder="$0.00">
+    </section>
+    
+    <section class="date">
+      <label for="DateMonth" class="titleDate">FECHA DE PAGO</label>
+      <input id="DateMonth" name="DateMonth" type="date">
+    </section>
+
+    <section class="containerSelect">
+      <a href="#icons" class="popupIcons"><OtherIcon class="icon"/></a>
+      <input type="number" placeholder="0" id="monthTime">
+    </section>
+
+    <section class="payContainer">
+      <button class="addPay">
+        <OtherPay class="icon" />
+        AÑADIR PAGOS
+      </button>
+    </section>
+
+    <section class="SaveEntry">
+        <button id="saveEntryMonth">GUARDAR GASTO</button>
+      </section>
+    </section>
+    <script src="@scripts/components/cashInput.js"></script>
+  </main>
+</Layout>

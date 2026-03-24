@@ -2,10 +2,10 @@
 import '@styles/dailyEntry.scss'
 import Layout from '@layouts/Layout.astro'
 
-import FoodIcon from '@components/assets/Food.astro'
-import TrasportIcon from '@components/assets/Transport.astro'
-import FunIcon from '@components/assets/Fun.astro'
-import OthersIcon from '@components/assets/Others.astro'
+import FoodIcon from '@icons/dailyEntry/Food.astro'
+import TrasportIcon from '@icons/dailyEntry/Transport.astro'
+import TradeIcon from '@icons/dailyEntry/Trade.astro'
+import OthersIcon from '@icons/Others.astro'
 ---
 
 <Layout title="Ingresa los gastos">
@@ -14,7 +14,7 @@ import OthersIcon from '@components/assets/Others.astro'
 
     <section class="fortnightly">
       <div class="background">
-        <label class="title">Ingreso Quincenal</label>
+        <label class="title">Ingresar Gasto</label>
         <input type="text" id="moneda" inputmode="decimal" placeholder="$0.00">
 
         <script src="@scripts/components/cashInput.js"></script>
@@ -34,8 +34,8 @@ import OthersIcon from '@components/assets/Others.astro'
             </label>
             <input type="radio" name="cat" id="Category3" value="3">
             <label for="Category3">
-              <FunIcon class="icon" />
-              Diversión
+              <TradeIcon class="icon" />
+              Negocio
             </label>
             <input type="radio" name="cat" id="Category4" value="4">
             <label for="Category4">

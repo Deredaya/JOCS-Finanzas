@@ -1,0 +1,203 @@
+* {
+  background: #F6FAFE;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+p {
+  margin: 0;
+}
+
+.MonthContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+
+  .title {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 40px;
+    letter-spacing: -0.9px;
+    color: #00462E;
+  }
+
+  .totalEntry {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+
+    .titleEntry {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 10px;
+      line-height: 24px;
+      letter-spacing: 1.6px;
+      color: #3F4944;
+      background: #fff;
+    }
+
+    #moneda {
+      border: none;
+      outline: none;
+      background: transparent;
+      font-family: 'Manrope', sans-serif;
+      font-weight: 500;
+      font-size: 20px;
+      text-align: start;
+      width: 276px; 
+      max-width: 416px;
+      color: #DFE3E7;
+      transition: color 0.3s ease;
+
+      &::placeholder {
+        color: #DFE3E7;
+      }
+      
+      &:focus {
+        border: none;
+        color: #059669;
+        outline: none;
+      }
+    }
+  }
+
+  .date {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+    
+    .titleDate {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 10px;
+      line-height: 24px;
+      letter-spacing: 1.6px;
+      color: #3F4944;
+      background: #fff;
+    }
+
+    #DateMonth {
+      background: #fff;
+      width: 276px;
+      border: none;
+      font-weight: 400;
+      font-size: 20px;
+      line-height: 24px;
+      letter-spacing: -0.5px;
+      color: #DFE3E7;
+      
+      &:focus {
+        outline: none;
+        border: none;
+        color: #059669;
+      }
+    }
+  }
+
+  .containerSelect {
+    width: 317px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 12px;
+    
+    .popupIcons {
+      background: #fff;
+      width: 87px;
+      height: 87px;
+      border-radius: 12px;
+      border: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #3F4944;
+      text-decoration: none;
+
+      .icon {
+        background: #fff;
+        width: 30px;
+        height: 30px;
+      }
+    }
+
+    #monthTime {
+      background: #fff;
+      width: 215px;
+      height: 87px;
+      border-radius: 12px;
+      border: none;
+      padding: 15px;
+      box-sizing: border-box;
+      font-weight: 400;
+      font-size: 30px;
+      line-height: 24px;
+      letter-spacing: -0.5px;
+      color: #DFE3E7;
+      text-align: end;
+
+      &::placeholder {
+        color: #DFE3E7;
+      }
+
+      &:focus {
+        outline: none;
+        border: none;
+        color: #000;
+      }
+    }    
+  }
+
+  .payContainer {
+    width: 317px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    
+    .addPay {
+      gap: 10px;
+      display: flex;
+      align-items: center;
+      border: none;
+      cursor: pointer;
+      
+      .icon {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+
+  .SaveEntry {
+    margin-top: auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    button {
+      width: 340px;
+      height: 50px;
+      background: linear-gradient(135deg, rgba(0, 70, 46, 1) 0%, rgba(0, 96, 65, 1) 100%);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Manrope', sans-serif;   
+      font-weight: 800;
+      font-size: 16px;
+      line-height: 24px;
+      letter-spacing: 0.4px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+  }
+}
