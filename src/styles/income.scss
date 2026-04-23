@@ -17,11 +17,11 @@ body {
 }
 
 .contentIncome {
-  padding: 0 4rem;
+  padding: 10px 0 0 0;
   margin: auto;
   display: flex;
   justify-content: center;
-  min-height: 85vh;
+  min-height: 99dvh;
   box-sizing: border-box;  
 
   .income {
@@ -49,7 +49,7 @@ body {
       color: #3F4944; 
     }
 
-    #moneda {
+    .moneda {
       border: none;
       outline: none;
       background: transparent;
@@ -66,7 +66,7 @@ body {
       }
     }
 
-    #moneda:focus {
+    .moneda:focus {
       border: none;
       color: #059669;
       outline: none;
@@ -177,6 +177,7 @@ body {
       border-radius: 10px;
 
       .InputDate {
+        width: 100%;
         border-radius: 10px;
         border: none;
         background: #DFE3E7;

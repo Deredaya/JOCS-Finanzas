@@ -6,28 +6,31 @@ import ExpenseIcon from '@icons/index/Expense.astro';
 import DailyIcon from '@icons/index/DailyExpense.astro'
 
 import { supabase } from "@/lib/supabase"
-import {SignIn,SignOut} from 'auth-astro/components'
+import { SignIn, SignOut } from 'auth-astro/components'
 import { getSession } from 'auth-astro/server';
+
+// --- IMPORTACIÓN DE ICONOS DINÁMICOS ---
+import { ICON_LIST } from '@components/Icons';
+
 const session = await getSession(Astro.request)
+// const session = true
 const userId = session?.user?.id;
-
-// const ession = true
-
-// console.log("Estado de la sesión:", session ? "Sesión activa" : "No hay sesión");
 
 if (session?.user) {
   const userId = session.user.id;
 
+  // Sincronización del usuario con la base de datos
   await supabase
     .from('User-Finances')
     .upsert({ 
       id: userId,
       email: session.user.email,
-      nombre: session.user.name,
-      avatar: session.user.image,
-      actualizado_at: new Date().toISOString()
+      name: session.user.name,
+      avatar_url: session.user.image,
+      updated_at: new Date().toISOString()
     }, { onConflict: 'id' });
-
+  
+  // Inicialización de datos financieros si no existen
   const { data: existingFinance } = await supabase
     .from('FinanceData')
     .select('id')
@@ -35,7 +38,7 @@ if (session?.user) {
     .single();
 
   if (!existingFinance) {
-    const { error: insertError } = await supabase
+    await supabase
       .from('FinanceData')
       .insert({ 
         id: userId,
@@ -45,12 +48,11 @@ if (session?.user) {
 }
 ---
 
-<Layout title="Administracion de Ingresos">
+<Layout title="Administración de Ingresos">
   <main class="content">
     {
     session ?
     <>
-      {/* TO DO: Aqui cargaremos los datos si el usuario ya inicio sesion */}
       <section class="Log">
         <section class="global-data">
           <p class="title">SALDO COMBINADO TOTAL</p>
@@ -58,7 +60,7 @@ if (session?.user) {
         </section>
 
         <section class="actions">
-          <p class="title">ACCIONES RAPIDAS</p>
+          <p class="title">ACCIONES RÁPIDAS</p>
           <div class="btns">
             <a href="/income" class="card">
               <article class="bg-icon">
@@ -82,13 +84,9 @@ if (session?.user) {
         </section>
 
         <div class="register">
-          <p>Gastos Principales</p>
-          <section class="table-container">
-            <article class="DateData"></article>
-            <article class="NameExpense"></article>
-            <article class="Debt"></article>
-            <article class="Pass"></article>
-            <article class="PassNumb"></article>
+          <p class="title">Gastos Principales</p>
+          <section id="expenses-container" class="expenses-grid">
+            <div class="loader">Cargando movimientos...</div>
           </section>
         </div>
       </section>
@@ -96,17 +94,27 @@ if (session?.user) {
     :
     <>
       <section class="Unlog">
-        <p>¿Quieres saber por que nunca tienes dinero a final de quincena?</p>
-        <p>Inicia Sesion ahora mismo</p>
-        <SignIn class="btn">Iniciar Sesion</SignIn>
-        {/* <a class="btn" href="#Iniciar-Sesion">Iniciar Sesion</a> */}
+        <p>¿Quieres saber por qué nunca tienes dinero a final de quincena?</p>
+        <p>Inicia sesión ahora mismo</p>
+        <SignIn class="btn">Iniciar Sesión</SignIn>
       </section>
     </>
   }
   </main>
+
+  <div id="icon-dictionary" style="display: none;" aria-hidden="true">
+    {
+      ICON_LIST.map(({ name, component: Icon }) => (
+        <div data-icon-name={name}>
+          <Icon class="icon-svg-render" />
+        </div>
+      ))
+    }
+  </div>
 </Layout>
 
 <script define:vars={{ userId }}>
+  // Pasamos el ID del usuario de la sesión de servidor al objeto window del cliente
   window.currentUserId = userId;
 </script>
 

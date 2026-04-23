@@ -1,50 +1,111 @@
 ---
-import Layout from '@layouts/Layout.astro';
 import '@styles/monthEntry.scss';
+import Layout from '@layouts/Layout.astro';
+import IncomeIcon from '@icons/index/Income.astro';
 import OtherIcon from '@icons/Others.astro';
-import OtherPay from '@icons/monthEntry/OtherPay.astro'
----
 
+import { ICON_LIST } from '@components/Icons';
+
+import { getSession } from 'auth-astro/server';
+const session = await getSession(Astro.request);
+const userId = session?.user?.id;
+---
 
 <Layout title="Ingresa Gasto Principal">
   <main class="MonthContainer">
-    <label class="title">
-      Registrar Gasto
-    </label>
-
-    <section class="totalEntry">
-      <p class="titleEntry">CREDITO TOTAL</p>
-      <input type="text" name="MonthTotal" id="moneda"
-      placeholder="$0.00">
-    </section>
-
-    <section class="totalEntry">
-      <p class="titleEntry">ABONO MENSUAL</p>
-      <input type="text" name="MonthCash" id="moneda"
-      placeholder="$0.00">
-    </section>
+    <p class="title">Registrar Gasto</p>
     
-    <section class="date">
+    <div>
+      <label for="Concept" class="titleEntry">CONCEPTO</label>
+      <section class="totalEntry">
+        <input type="text" name="Concept" id="Concept" class="Name" placeholder="CONCEPTO DEL GASTO">
+      </section>
+    </div>
+
+    <div>
+      <label for="MonthTotal" class="titleEntry">CREDITO TOTAL</label>
+      <section class="totalEntry">
+        <input type="text" name="MonthTotal" id="MonthTotal" class="moneda"
+        placeholder="$0.00">
+      </section>
+    </div>
+
+    <div>
+      <label for="MonthCash" class="titleEntry">ABONO MENSUAL</label>
+      <section class="totalEntry">
+        <input type="text" name="MonthCash" id="MonthCash" class="moneda"
+        placeholder="$0.00">
+      </section>
+    </div>
+    
+    <div>
       <label for="DateMonth" class="titleDate">FECHA DE PAGO</label>
-      <input id="DateMonth" name="DateMonth" type="date">
-    </section>
+      <section class="date">
+        <input id="DateMonth" name="DateMonth" type="date">
+      </section>
+    </div>
 
     <section class="containerSelect">
-      <a href="#icons" class="popupIcons"><OtherIcon class="icon"/></a>
+      <a class="popupIcons"><OtherIcon class="icon"/></a>
       <input type="number" placeholder="0" id="monthTime">
     </section>
 
     <section class="payContainer">
       <button class="addPay">
-        <OtherPay class="icon" />
+        <IncomeIcon class="icon" />
         AÑADIR PAGOS
       </button>
     </section>
 
-    <section class="SaveEntry">
-        <button id="saveEntryMonth">GUARDAR GASTO</button>
+    <section class="Period">
+        <label>PERIODO</label>
+        <section class="Period-select">
+          <input type="radio" id="Period1" name="period" value="1" checked>
+          <label for="Period1">Primero</label>
+          <input type="radio" id="Period2" name="period" value="2">
+          <label for="Period2">Segundo</label>
+          <div class="bg"></div>
+        </section>
+        <script src="@scripts/pages/income.js"></script>
       </section>
+
+    <section class="SaveEntry">
+      <button id="saveEntryMonth">GUARDAR GASTO</button>
     </section>
+
+    <div id="iconModal" class="modal-overlay-icon">
+      <div class="modal-content">
+        <h3>Selecciona un Icono</h3>
+        <div class="icon-grid">
+          {
+            ICON_LIST.map(({ name, component: Icon }) => (
+              <button class="icon-option" data-icon={name}>
+                <Icon class="iconPopup" />
+              </button>
+            ))
+          }
+        </div>
+        <button id="closeModalIcon">Cancelar</button>
+      </div>
+    </div>
+
+    <div id="addPayModal" class="modal-overlay-addpay">
+      <div class="modal-content-addPay">
+        <p id="errorModal"></p>
+        <label for="RealizedPayments">Ingresar numero de pagos realizados</label>
+        <input type="number" name="RealizedPayments" class="RealizedPayments" id="RealizedPayments" placeholder="0">
+        <label for="RealizedCredit">Ingresa monto</label>
+        <input type="text" name="RealizedCredit" class="moneda" id="RealizedCredit" placeholder="$0.00">
+        <button id="saveModalAddPay">Guardar</button>
+        <button id="closeModalAddPay">Cancelar</button>
+      </div>
+    </div>
+
+    <script src="@scripts/pages/monthEntry.js"></script>
     <script src="@scripts/components/cashInput.js"></script>
   </main>
 </Layout>
+
+<script define:vars={{ userId }}>
+  window.currentUserId = userId;
+</script>

@@ -1,11 +1,10 @@
 import { supabase } from "@/lib/supabase"
-import { money } from "@scripts/class/moneyManager";
 
 const inc = document.querySelectorAll('input[name="income"]');
 const periods = document.querySelectorAll('input[name="period"]');
 const box = document.querySelector('.Period-select')
 const button = document.getElementById('saveIncome')
-const cashInput = document.getElementById('moneda');
+const cashInput = document.querySelector('.moneda');
 const dayPayInput = document.querySelector('.InputDate');
 let valuetarget = document.querySelector('input[name="income"]:checked')?.value || "1";
 
@@ -31,57 +30,54 @@ inc.forEach(income => {
 button?.addEventListener('click', async () => {
     const userId = window.currentUserId;
     
-    if (!userId) {
-        alert("Error: No se detectó una sesión activa.");
-        return;
-    }
+    if (!userId) return;
 
     const cleanValue = cashInput.value.replace(/[$,\s]/g, "");
     const montoIngresado = parseFloat(cleanValue);
 
-    if (isNaN(montoIngresado) || montoIngresado <= 0) {
-        alert("Por favor, ingresa un monto válido.");
-        return;
-    }
+    if (isNaN(montoIngresado) || montoIngresado <= 0) return;
 
     try {
         button.disabled = true;
         button.textContent = "GUARDANDO...";
 
-        const { data: currentFinance, error: fetchError } = await supabase
-            .from('FinanceData')
-            .select('global_amount')
-            .eq('id', userId)
-            .single();
-
-        if (fetchError) throw fetchError;
-
-        const nuevoTotal = (currentFinance?.global_amount || 0) + montoIngresado;
         const periodoActivo = document.querySelector('input[name="period"]:checked')?.value;
+        
+        const { error: registerError } = await supabase
+            .from('FinanceIncomeRegister')
+            .insert({
+                user_id: userId,
+                amount: montoIngresado,
+                date: dayPayInput.value || new Date().toISOString().split('T')[0],
+                is_fortnightly: valuetarget === "1",
+                period: valuetarget === "1" ? (periodoActivo === "1" ? "Primero" : "Segundo") : "N/A"
+            });
 
-        const { data, error: updateError, status } = await supabase
+        if (registerError) throw new Error("Error al crear registro: " + registerError.message);
+
+        const { data: allRegisters, error: sumError } = await supabase
+            .from('FinanceIncomeRegister')
+            .select('amount')
+            .eq('user_id', userId);
+
+        if (sumError) throw sumError;
+
+        const nuevoTotalGlobal = allRegisters.reduce((acc, curr) => acc + curr.amount, 0);
+
+        const { error: updateError } = await supabase
             .from('FinanceData')
             .update({ 
-                global_amount: nuevoTotal,
-                date: dayPayInput.value || new Date().toISOString().split('T')[0],
-                typeIncome: valuetarget === "1",
-                period: valuetarget === "1" ? true : false
+                global_amount: nuevoTotalGlobal,
+                last_update: new Date().toISOString()
             })
-            .eq('id', userId)
-            .select();
+            .eq('id', userId);
 
         if (updateError) throw updateError;
 
-        if (!data || data.length === 0) {
-            throw new Error("No se pudo actualizar la fila. Verifica que el ID exista.");
-        }
-
-        alert(`¡Ingreso de ${money.format(montoIngresado)} guardado!`);
         window.location.href = "/";
 
     } catch (error) {
-        console.error("Error completo:", error);
-        alert("Error al guardar: " + error.message);
+        // console.error("Error completo:", error);
     } finally {
         button.disabled = false;
         button.textContent = "GUARDAR INGRESOS";

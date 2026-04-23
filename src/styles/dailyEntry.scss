@@ -13,7 +13,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  padding: 10px;
+  padding: 40px 10px;
   align-items:center;
 
   .text {
@@ -51,7 +51,7 @@ body {
         color: #3F4944; 
       }
 
-      #moneda {
+      .moneda {
         border: none;
         outline: none;
         background: transparent;
@@ -70,7 +70,7 @@ body {
 
       }
       
-      #moneda:focus {
+      .moneda:focus {
         border: none;
         color: #059669;
         outline: none;
