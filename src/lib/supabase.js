@@ -5,11 +5,11 @@ export const supabase = createClient(
   import.meta.env.PUBLIC_SUPABASE_ANON_KEY
 )
 
-async function singIn() {
+async function signIn() {
   const { data, error} = await supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
-      reditectTo:'http://localhost:4321'
+      redirectTo: import.meta.env.SITE || 'http://localhost:4321'
     }
   })
 }
