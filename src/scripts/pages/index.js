@@ -246,24 +246,75 @@ function abrirModalEdicion(gasto) {
  * Lógica para registrar un pago
  */
 async function marcarComoPagado(gasto) {
-    if (!gasto.isIndefinite && gasto.numberPaymentsMade >= gasto.paymentsMade) { 
+    // 1. Verificación inicial al hacer click
+    console.group("🚀 Iniciando proceso: Marcar como pagado");
+    console.log("Datos recibidos del gasto:");
+    console.table(gasto);
+
+    // 2. Verificación de la lógica de bloqueo
+    const hecho = Number(gasto.numberPaymentsMade || 0);
+    const totalPactado = Number(gasto.paymentsMade || 0);
+    
+    if (!gasto.isIndefinite && hecho >= totalPactado && totalPactado > 0) { 
+        console.warn("⚠️ Validación fallida: El gasto ya está liquidado.");
+        console.log(`Hechos: ${hecho}, Total: ${totalPactado}`);
+        console.groupEnd();
         return alert("Este compromiso ya ha sido liquidado."); 
     }
 
+    // 3. Preparación de cálculos
     const hoyIso = new Date().toISOString().split('T')[0];
-    const nuevoAvance = (gasto.numberPaymentsMade || 0) + 1;
-    
+    const nuevoAvance = hecho + 1;
+    const montoCuota = Number(gasto.numberPayments || 0);
+    const creditoActual = Number(gasto.remainingCredit || 0);
+
     const updateData = {
         numberPaymentsMade: nuevoAvance,
         last_payment_date: hoyIso,
-        remainingCredit: gasto.isIndefinite ? 0 : Math.max(0, (gasto.remainingCredit || 0) - (gasto.numberPayments || 0)),
-        remainingPayment: gasto.isIndefinite ? 999 : Math.max(0, (gasto.paymentsMade || 0) - nuevoAvance)
+        remainingCredit: gasto.isIndefinite 
+            ? creditoActual 
+            : Math.max(0, creditoActual - montoCuota),
+        remainingPayment: gasto.isIndefinite 
+            ? 999 
+            : Math.max(0, totalPactado - nuevoAvance)
     };
 
-    const { error } = await supabase.from('FinanceEntryRegister').update(updateData).eq('id', gasto.id);
-    
-    if (error) alert("Error: " + error.message);
-    else location.reload();
+    console.log("Datos que se enviarán a Supabase (updateData):");
+    console.table(updateData);
+
+    // 4. Intento de actualización en Supabase
+    console.log("Enviando petición a Supabase...");
+    const { error, status } = await supabase
+        .from('FinanceEntryRegister')
+        .update(updateData)
+        .eq('id', gasto.id);
+
+    // 5. Verificación de respuesta
+    if (error) {
+        console.error("❌ ERROR detectado en Supabase:");
+        console.error({
+            mensaje: error.message,
+            codigo: error.code,
+            detalles: error.details,
+            hint: error.hint,
+            status: status // Si es 401 es permisos, 404 es que no encontró el ID
+        });
+        
+        // Explicación amigable del error común
+        if (status === 401) console.log("💡 Tip: Revisa si el RLS (políticas) de 'UPDATE' está activo para esta tabla.");
+        if (error.code === '42883') console.log("💡 Tip: Tienes un error de tipos (UUID vs Text) en la base de datos.");
+
+        alert("Error al actualizar: " + error.message);
+    } else {
+        console.log("✅ ¡Éxito! Gasto actualizado correctamente.");
+        console.log("Respuesta de red (Status):", status);
+        
+        // Pequeño delay antes del reload para que alcances a ver el log de éxito
+        setTimeout(() => {
+            console.groupEnd();
+            location.reload();
+        }, 1000);
+    }
 }
 
 /**

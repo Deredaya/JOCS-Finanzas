@@ -148,7 +148,8 @@ body {
         cursor: pointer;
         text-decoration: none;
         
-        .icon { width: 28px; height: 28px; color: $text-label; }
+        .icon { width: 28px; height: 28px; color: $text-label; background: transparent;}
+        .iconPopup { width: 28px; height: 28px; color: $text-label; background: transparent;}
       }
     }
 
@@ -297,7 +298,7 @@ body {
         justify-content: center;
         
         &:hover { background: #e5e7eb; }
-        .iconPopup { width: 28px; height: 28px; color: #000; }
+        .iconPopup { width: 28px; height: 28px; color: #000; background: transparent;}
       }
     }
   }
