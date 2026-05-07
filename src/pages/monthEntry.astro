@@ -3,42 +3,47 @@ import '@styles/monthEntry.scss';
 import Layout from '@layouts/Layout.astro';
 import IncomeIcon from '@icons/index/Income.astro';
 import OtherIcon from '@icons/Others.astro';
-
 import { ICON_LIST } from '@components/Icons';
-
 import { getSession } from 'auth-astro/server';
+
 const session = await getSession(Astro.request);
 const userId = session?.user?.id;
 ---
 
-<Layout title="Ingresa Gasto Principal">
+<Layout title="Registrar Gasto Principal">
   <main class="MonthContainer">
     <p class="title">Registrar Gasto</p>
     
-    <div>
+    <div class="input-group">
       <label for="Concept" class="titleEntry">CONCEPTO</label>
       <section class="totalEntry">
-        <input type="text" name="Concept" id="Concept" class="Name" placeholder="CONCEPTO DEL GASTO">
+        <input type="text" name="Concept" id="Concept" class="Name" placeholder="Ej. Pago de Luz, Internet...">
       </section>
     </div>
 
-    <div>
-      <label for="MonthTotal" class="titleEntry">CREDITO TOTAL</label>
-      <section class="totalEntry">
-        <input type="text" name="MonthTotal" id="MonthTotal" class="moneda"
-        placeholder="$0.00">
-      </section>
+    <div class="containerCredit">
+      <div id="creditWrapper">
+        <label for="MonthTotal" class="titleEntry">CRÉDITO TOTAL</label>
+        <section class="CreditArea">
+          <input type="text" name="MonthTotal" id="MonthTotal" class="moneda" placeholder="$0.00">
+        </section>
+      </div>
+      <div class="indefinite-section">
+        <label for="Indefinite" class="titleIndefinite">¿Gasto indefinido?</label>
+        <div class="checkbox-wrapper">
+          <input type="checkbox" id="Indefinite" name="Indefinite">
+        </div>
+      </div>
     </div>
 
-    <div>
+    <div class="input-group">
       <label for="MonthCash" class="titleEntry">ABONO MENSUAL</label>
       <section class="totalEntry">
-        <input type="text" name="MonthCash" id="MonthCash" class="moneda"
-        placeholder="$0.00">
+        <input type="text" name="MonthCash" id="MonthCash" class="moneda" placeholder="$0.00">
       </section>
     </div>
     
-    <div>
+    <div class="input-group">
       <label for="DateMonth" class="titleDate">FECHA DE PAGO</label>
       <section class="date">
         <input id="DateMonth" name="DateMonth" type="date">
@@ -46,27 +51,32 @@ const userId = session?.user?.id;
     </div>
 
     <section class="containerSelect">
-      <a class="popupIcons"><OtherIcon class="icon"/></a>
-      <input type="number" placeholder="0" id="monthTime">
+      <div class="icon-selector-wrapper">
+        <label class="titleEntry">ICONO</label>
+        <a class="popupIcons" id="openIconModal"><OtherIcon class="icon"/></a>
+      </div>
+      <div class="time-selector-wrapper" id="timeWrapper">
+        <label class="titleEntry">MESES</label>
+        <input type="number" placeholder="0" id="monthTime">
+      </div>
     </section>
 
     <section class="payContainer">
-      <button class="addPay">
+      <button class="addPay" id="openPayModal">
         <IncomeIcon class="icon" />
-        AÑADIR PAGOS
+        AÑADIR PAGOS PREVIOS
       </button>
     </section>
 
     <section class="Period">
-        <label>PERIODO</label>
+        <label>PERIODO AUTOMÁTICO (SEGÚN FECHA)</label>
         <section class="Period-select">
-          <input type="radio" id="Period1" name="period" value="1" checked>
-          <label for="Period1">Primero</label>
-          <input type="radio" id="Period2" name="period" value="2">
-          <label for="Period2">Segundo</label>
+          <input type="radio" id="Period1" name="period" value="1" checked disabled>
+          <label for="Period1">1ra Quincena</label>
+          <input type="radio" id="Period2" name="period" value="2" disabled>
+          <label for="Period2">2da Quincena</label>
           <div class="bg"></div>
         </section>
-        <script src="@scripts/pages/income.js"></script>
       </section>
 
     <section class="SaveEntry">
@@ -77,35 +87,37 @@ const userId = session?.user?.id;
       <div class="modal-content">
         <h3>Selecciona un Icono</h3>
         <div class="icon-grid">
-          {
-            ICON_LIST.map(({ name, component: Icon }) => (
-              <button class="icon-option" data-icon={name}>
-                <Icon class="iconPopup" />
-              </button>
-            ))
-          }
+          {ICON_LIST.map(({ name, component: Icon }) => (
+            <button class="icon-option" data-icon={name}>
+              <Icon class="iconPopup" />
+            </button>
+          ))}
         </div>
-        <button id="closeModalIcon">Cancelar</button>
+        <button id="closeModalIcon" class="btn-cancel">Cancelar</button>
       </div>
     </div>
 
     <div id="addPayModal" class="modal-overlay-addpay">
       <div class="modal-content-addPay">
+        <h3>Pagos ya realizados</h3>
         <p id="errorModal"></p>
-        <label for="RealizedPayments">Ingresar numero de pagos realizados</label>
-        <input type="number" name="RealizedPayments" class="RealizedPayments" id="RealizedPayments" placeholder="0">
-        <label for="RealizedCredit">Ingresa monto</label>
-        <input type="text" name="RealizedCredit" class="moneda" id="RealizedCredit" placeholder="$0.00">
-        <button id="saveModalAddPay">Guardar</button>
-        <button id="closeModalAddPay">Cancelar</button>
+        <label for="RealizedPayments">Número de pagos realizados</label>
+        <input type="number" id="RealizedPayments" placeholder="0">
+        <label for="RealizedCredit">Monto total ya pagado</label>
+        <input type="text" id="RealizedCredit" class="moneda" placeholder="$0.00">
+        <div class="modal-btns">
+            <button id="saveModalAddPay" class="btn-save">Guardar</button>
+            <button id="closeModalAddPay" class="btn-cancel">Cancelar</button>
+        </div>
       </div>
     </div>
 
-    <script src="@scripts/pages/monthEntry.js"></script>
-    <script src="@scripts/components/cashInput.js"></script>
   </main>
 </Layout>
 
 <script define:vars={{ userId }}>
   window.currentUserId = userId;
 </script>
+
+<script src="@scripts/pages/monthEntry.js"></script>
+<script src="@scripts/components/cashInput.js"></script>

@@ -2,60 +2,81 @@
 import '@styles/dailyEntry.scss'
 import Layout from '@layouts/Layout.astro'
 
+// Importación de Iconos
 import FoodIcon from '@icons/dailyEntry/Food.astro'
 import TrasportIcon from '@icons/dailyEntry/Transport.astro'
 import TradeIcon from '@icons/dailyEntry/Trade.astro'
 import OthersIcon from '@icons/Others.astro'
+import { getSession } from 'auth-astro/server';
+
+const session = await getSession(Astro.request);
+const userId = session?.user?.id;
 ---
 
 <Layout title="Ingresa los gastos">
   <main class="dailyEntry">
-    <label class="text">GASTOS DIARIOS</label>
+    <p class="text">GASTOS DIARIOS</p>
 
     <section class="fortnightly">
       <div class="background">
-        <label class="title">Ingresar Gasto</label>
-        <input type="text" class="moneda" inputmode="decimal" placeholder="$0.00">
+        <p class="title">Ingresar Gasto</p>
+        <input type="text" class="moneda" id="dailyAmountInput" inputmode="decimal" placeholder="$0.00">
 
         <script src="@scripts/components/cashInput.js"></script>
 
         <section class="category">
-          <label class="title">Seleccionar Categoria</label>
+          <p class="title">Seleccionar Categoria</p>
           <div class="selections">
-            <input type="radio" name="cat" id="Category1" value="1" checked>
+            <input type="radio" name="cat" id="Category1" value="1" data-name="Comida" checked>
             <label for="Category1">
               <FoodIcon class="icon" />
               Comida
             </label>
-            <input type="radio" name="cat" id="Category2" value="2">
+
+            <input type="radio" name="cat" id="Category2" value="2" data-name="Transporte">
             <label for="Category2">
               <TrasportIcon class="icon"/>  
               Transporte
             </label>
-            <input type="radio" name="cat" id="Category3" value="3">
+
+            <input type="radio" name="cat" id="Category3" value="3" data-name="Negocio">
             <label for="Category3">
               <TradeIcon class="icon" />
               Negocio
             </label>
-            <input type="radio" name="cat" id="Category4" value="4">
+
+            <input type="radio" name="cat" id="Category4" value="4" data-name="Otros">
             <label for="Category4">
               <OthersIcon class="icon" />
               Otros
             </label>
           </div>
-          <button>Agregar Gasto</button>
-        </section>
+        <button id="btnAddDailyExpense">Agregar Gasto</button>        </section>
       </div>
 
       <section class="register">
         <div class="heading">
-          <label>Movimientos Diarios</label>
-          <a href="#">Ver todo</a>
+          <p class="headingTitle">Movimientos Diarios</p>
+          <a href="#" id="btnViewAll">Ver todo</a>
         </div>
 
-        <section class="tableData" id="tableData">
-        </section>
+        <section class="tableData" id="tableData"></section>
       </section>
     </section>
   </main>
+
+  <div id="icon-dictionary" style="display: none;">
+    <div data-icon-id="1"><FoodIcon /></div>
+    <div data-icon-id="2"><TrasportIcon /></div>
+    <div data-icon-id="3"><TradeIcon /></div>
+    <div data-icon-id="4"><OthersIcon /></div>
+  </div>
 </Layout>
+
+<script define:vars={{ userId }}>
+  window.currentUserId = userId;
+</script>
+
+<script>
+  import "@scripts/pages/dailyEntry.js";
+</script>
