@@ -8,9 +8,13 @@ import { getSession } from 'auth-astro/server';
 
 const session = await getSession(Astro.request);
 const userId = session?.user?.id;
+
+if (!session) {
+  return Astro.redirect('/');
+}
 ---
 
-<Layout title="Registrar Gasto Principal">
+<Layout title="Registro de gastos mensuales">
   <main class="MonthContainer">
     <p class="title">Registrar Gasto</p>
     

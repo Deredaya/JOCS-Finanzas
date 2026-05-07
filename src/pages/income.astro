@@ -8,9 +8,13 @@ import JobIcon from '@icons/income/Job.astro';
 import { getSession } from 'auth-astro/server';
 const session = await getSession(Astro.request);
 const userId = session?.user?.id;
+
+if (!session) {
+  return Astro.redirect('/');
+}
 ---
 
-<Layout>
+<Layout title="Registro de Ingresos">
   <main class="contentIncome">
     <section class="income">
       <p class="text">AGREGAR INGRESOS</p>
